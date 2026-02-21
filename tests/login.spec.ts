@@ -10,14 +10,14 @@ test.describe("Login Page", () => {
 
   // ✅ POSITIVE TESTS
 
-  test("TC-LOGIN-001: should display the login form", async ({ loginPage }) => {
+  test("TC-LOGIN-001: should display the login form @smoke", async ({ loginPage }) => {
     await expect(loginPage.header).toBeVisible();
     await expect(loginPage.usernameField).toBeVisible();
     await expect(loginPage.passwordField).toBeVisible();
     await expect(loginPage.loginButton).toBeVisible();
   });
 
-  test("TC-LOGIN-002: should login with valid credentials", async ({
+  test("TC-LOGIN-002: should login with valid credentials @smoke", async ({
     loginPage,
   }) => {
     await loginPage.login({
@@ -29,7 +29,7 @@ test.describe("Login Page", () => {
 
   // ❌ NEGATIVE TESTS
 
-  test("TC-LOGIN-003: should show correct error message with invalid credentials", async ({
+  test("TC-LOGIN-003: should show correct error message with invalid credentials @regression", async ({
     loginPage,
   }) => {
     await loginPage.login({
@@ -41,7 +41,7 @@ test.describe("Login Page", () => {
     );
   });
 
-  test("TC-LOGIN-004 should show correct error for locked out user", async ({
+  test("TC-LOGIN-004 should show correct error for locked out user @regression", async ({
     loginPage,
   }) => {
     await loginPage.login({
@@ -53,14 +53,14 @@ test.describe("Login Page", () => {
     );
   });
 
-  test("TC-LOGIN-005: should show correct error for missing username", async ({
+  test("TC-LOGIN-005: should show correct error for missing username @regression", async ({
     loginPage,
   }) => {
     await loginPage.login({ userName: "", password: CREDENTIALS.password });
     await loginPage.validateErrorMessage("Epic sadface: Username is required");
   });
 
-  test("TC-LOGIN-006: should show correct error for missing password", async ({
+  test("TC-LOGIN-006: should show correct error for missing password @regression", async ({
     loginPage,
   }) => {
     await loginPage.login({

@@ -13,7 +13,19 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: lts/*
-        
+
+    - name: Load .env variables
+      run: |
+        echo "SAUCEDEMO_USERNAME=${{ secrets.SAUCEDEMO_USERNAME }}" >> $GITHUB_ENV
+        echo "SAUCEDEMO_PASSWORD=${{ secrets.SAUCEDEMO_PASSWORD }}" >> $GITHUB_ENV
+        echo "SAUCEDEMO_LOCKEDOUT_USERNAME=${{ secrets.SAUCEDEMO_LOCKEDOUT_USERNAME }}" >> $GITHUB_ENV
+        echo "BASE_URL=${{ secrets.BASE_URL }}" >> $GITHUB_ENV
+      env:
+        SAUCEDEMO_USERNAME: ${{ secrets.SAUCEDEMO_USERNAME }}
+        SAUCEDEMO_PASSWORD: ${{ secrets.SAUCEDEMO_PASSWORD }}
+        SAUCEDEMO_LOCKEDOUT_USERNAME: ${{ secrets.SAUCEDEMO_LOCKEDOUT_USERNAME }}
+        BASE_URL: ${{ secrets.BASE_URL }}
+
     - name: Install dependencies
       run: npm ci
 
@@ -21,10 +33,29 @@ jobs:
       run: npx playwright install --with-deps
 
     - name: Run Playwright tests
-      run: npx playwright test
-      
+      env:
+        SAUCEDEMO_USERNAME: ${{ env.SAUCEDEMO_USERNAME }}
+        SAUCEDEMO_PASSWORD: ${{ env.SAUCEDEMO_PASSWORD }}
+        SAUCEDEMO_LOCKEDOUT_USERNAME: ${{ env.SAUCEDEMO_LOCKEDOUT_USERNAME }}
+        BASE_URL: ${{ env.BASE_URL }}
+        TAG: ${{ github.event.inputs.tag || '' }}
+      run: |
+        if [ -n "$TAG" ]; then
+          echo "Running tests with tag: $TAG"
+          npx playwright test --grep "$TAG"
+        else
+          echo "Running all tests"
+          npx playwright test
+        fi
+
     - name: Generate Allure Report
       run: npm run allure:generate
+
+    - name: Ensure allure-report folder exists
+      run: |
+        mkdir -p allure-report
+        if [ ! -f allure-report/index.html ]; then echo '<html><body>No Allure results found.</body></html>' > allure-report/index.html; fi
+
     - uses: actions/upload-artifact@v4
       if: ${{ !cancelled() }}
       with:
