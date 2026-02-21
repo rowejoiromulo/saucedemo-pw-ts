@@ -19,12 +19,11 @@ jobs:
         echo "SAUCEDEMO_USERNAME=${{ secrets.SAUCEDEMO_USERNAME }}" >> $GITHUB_ENV
         echo "SAUCEDEMO_PASSWORD=${{ secrets.SAUCEDEMO_PASSWORD }}" >> $GITHUB_ENV
         echo "SAUCEDEMO_LOCKEDOUT_USERNAME=${{ secrets.SAUCEDEMO_LOCKEDOUT_USERNAME }}" >> $GITHUB_ENV
-        echo "BASE_URL=${{ secrets.BASE_URL }}" >> $GITHUB_ENV
+        echo "BASE_URL=https://www.saucedemo.com" >> $GITHUB_ENV
       env:
         SAUCEDEMO_USERNAME: ${{ secrets.SAUCEDEMO_USERNAME }}
         SAUCEDEMO_PASSWORD: ${{ secrets.SAUCEDEMO_PASSWORD }}
         SAUCEDEMO_LOCKEDOUT_USERNAME: ${{ secrets.SAUCEDEMO_LOCKEDOUT_USERNAME }}
-        BASE_URL: ${{ secrets.BASE_URL }}
 
     - name: Install dependencies
       run: npm ci
@@ -37,7 +36,7 @@ jobs:
         SAUCEDEMO_USERNAME: ${{ env.SAUCEDEMO_USERNAME }}
         SAUCEDEMO_PASSWORD: ${{ env.SAUCEDEMO_PASSWORD }}
         SAUCEDEMO_LOCKEDOUT_USERNAME: ${{ env.SAUCEDEMO_LOCKEDOUT_USERNAME }}
-        BASE_URL: ${{ env.BASE_URL }}
+        BASE_URL: https://www.saucedemo.com
         TAG: ${{ github.event.inputs.tag || '' }}
       run: |
         if [ -n "$TAG" ]; then
