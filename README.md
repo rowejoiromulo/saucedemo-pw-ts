@@ -4,7 +4,6 @@ This repository contains end-to-end automated tests for the [SauceDemo](https://
 
 ---
 
-
 ```
 ├── fixtures/
 │   └── base-fixture.ts      # Custom Playwright fixtures for page objects and utilities
@@ -98,20 +97,21 @@ test('should login with valid credentials', async ({ loginPage }) => {
 
 ---
 
+
 ## Reporting
 
 - **Allure Reports**: Allure is integrated via the `allure-playwright` reporter. After running tests, generate the report with `npm run allure:generate` and view it with `npm run allure:open`.
-- **Playwright HTML Report**: Playwright's built-in HTML report is also generated and uploaded as an artifact in CI.
 
 ---
+
 
 ## Continuous Integration (GitHub Actions)
 
 The workflow `.github/workflows/playwright.yml` runs on every push and pull request to `main` or `master`:
 - Installs dependencies and Playwright browsers
 - Runs all tests
-- Generates Allure and Playwright reports
-- Uploads both reports as artifacts for download
+- Generates Allure report
+- Uploads the Allure report as an artifact for download
 
 Example workflow snippet:
 ```yaml
@@ -123,10 +123,6 @@ Example workflow snippet:
       with:
         name: allure-report
         path: allure-report/
-        retention-days: 30
-    - uses: actions/upload-artifact@v4
-      with:
-        name: playwright-report
         retention-days: 30
 ```
 
