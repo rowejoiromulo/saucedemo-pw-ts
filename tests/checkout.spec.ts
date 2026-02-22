@@ -2,8 +2,6 @@ import { test, expect } from "../fixtures/base-fixture";
 import { CREDENTIALS, TEST_CUSTOMER } from "../utils/constants";
 
 test.describe("Checkout Flow", () => {
-  test.describe.configure({ mode: "parallel" });
-
   test.beforeEach(async ({ page, loginPage }) => {
     await page.goto("/");
     await loginPage.login({

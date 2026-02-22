@@ -3,7 +3,6 @@ import { test } from "../fixtures/base-fixture";
 import { CREDENTIALS } from "../utils/constants";
 
 test.describe("Login Page", () => {
-  test.describe.configure({ mode: "parallel" });
   test.beforeEach(async ({ page }) => {
     await page.goto("/");
   });
